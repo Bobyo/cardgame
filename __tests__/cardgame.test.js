@@ -1,4 +1,4 @@
-import { buildDeck, shuffleDeck, drawCards, sortDrawnCards } from "../cardGame";
+import { buildDeck, shuffleDeck, drawCards, sortDrawnCards } from "../src/cardGame";
 
 describe("Card Game Functionality", () => {
   test("Build Deck", () => {

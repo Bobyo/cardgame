@@ -21,14 +21,13 @@ const dialog = document.getElementById("dialog");
 const closeBtn = document.getElementsByClassName("close")[0];
 const submitCardCount = document.getElementById("submitBtn");
 const inputField = document.getElementById("inputField");
+const errorMessage = document.getElementById("errorMessage");
 
 // Function to create a card element
 function createCardElement(card) {
   let cardElement = document.createElement("div");
   cardElement.className = `card ${card.suit}`;
-  cardElement.innerHTML = `<div class="value">${
-    card.value
-  }</div><div class="shape">${shapesIcons[card.suit]}</div>`;
+  cardElement.innerHTML = `<div class="value">${card.value}</div><div class="shape">${shapesIcons[card.suit]}</div>`;
   return cardElement;
 }
 
@@ -73,9 +72,20 @@ closeBtn.addEventListener("click", () => {
 
 submitCardCount.addEventListener("click", () => {
   const userInput = parseInt(inputField.value, 10);
+  if (userInput > 52) {
+    errorMessage.style.display = "block";
+    inputField.setCustomValidity("Number should not be over 52");
+    return;
+  } else {
+    errorMessage.style.display = "none";
+    inputField.setCustomValidity("");
+  }
+
+  inputField.reportValidity();
   const drawResult = drawCards(deck, userInput);
   drawnDeck = drawResult.drawnDeck;
   deck = drawResult.remainingDeck;
+
   displayDeck(deck);
   displayDrawnDeck(drawnDeck);
   sortBtn.disabled = false;
@@ -86,3 +96,4 @@ submitCardCount.addEventListener("click", () => {
 deck = buildDeck();
 deck = shuffleDeck(deck);
 displayDeck(deck);
+
