@@ -18,10 +18,8 @@ jobs:
 
     - name: Run tests
       run: npm test
-
-    - name: Set test status
-      if: always()
-      run: echo "::set-env name=TEST_STATUS::success"
+      env:
+        TEST_STATUS: success
 
   build:
     runs-on: ubuntu-latest
@@ -36,10 +34,8 @@ jobs:
 
     - name: Build with webpack
       run: npx webpack
-
-    - name: Set build status
-      if: always()
-      run: echo "::set-env name=BUILD_STATUS::success"
+      env:
+        BUILD_STATUS: success
 
   notify:
     runs-on: ubuntu-latest
