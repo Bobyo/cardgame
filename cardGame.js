@@ -1,6 +1,6 @@
 // cardGame.js
 
-const suits = ["spades", "diamonds", "clubs", "hearts"];
+const suits = ["clubs", "spades", "hearts", "diamonds"];
 const values = ["2","3","4","5","6","7","8","9","10","J","Q","K","A",];
 
 function buildDeck() {
@@ -37,8 +37,8 @@ function drawCards(deck, nrCards) {
 
 function sortDrawnCards(drawnDeck) {
   drawnDeck.sort((cardA, cardB) => {
-    const suitsOrder = ["Clubs", "Spades", "Hearts", "Diamonds"];
-    const valuesOrder = ["2","3","4","5","6","7","8","9","10","J","Q","K","A",];
+    let suitsOrder = suits;
+    let valuesOrder = values;
 
     // Compare suits first
     const suitIndexA = suitsOrder.indexOf(cardA.suit);
