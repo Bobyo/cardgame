@@ -43,11 +43,11 @@ jobs:
 
     steps:
     - name: Notify build status
-      if: always()
+      if: ${{ always() }}
       run: |
         if [ "$TEST_STATUS" = "success" ] && [ "$BUILD_STATUS" = "success" ]; then
-          echo "🎉 Tests and build passed successfully! 🎉"
-        else
-          echo "❌ Tests or build failed! ❌"
-          exit 1
-        fi
+            echo "🎉 Tests and build passed successfully! 🎉"
+          else
+            echo "❌ Tests or build failed! ❌"
+            exit 1
+          fi
