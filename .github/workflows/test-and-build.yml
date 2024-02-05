@@ -45,5 +45,5 @@ jobs:
     - name: Notify build status
       if: ${{ always() }}
       run: |
-        echo "TEST_STATUS: $TEST_STATUS"
-        echo "BUILD_STATUS: $BUILD_STATUS"
+        echo "TEST_STATUS: ${{env.TEST_STATUS}}"
+        echo "BUILD_STATUS: ${{env.BUILD_STATUS}}"
