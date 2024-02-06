@@ -22,7 +22,7 @@ function shuffleDeck(deck) {
   // Create a copy of the deck to avoid mutating the original array
   let shuffledDeck = [...deck];
 
-  // Shuffle the deck using FY 
+  // Shuffle the deck using FY
   // So we don't pop the first elem of the array and break it
   for (let i = shuffledDeck.length - 1; i > 0; i--) {
     const j = Math.floor(Math.random() * (i + 1));
