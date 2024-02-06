@@ -84,8 +84,19 @@ elements.closeBtn.addEventListener("click", () => {
 
 // Event listener for submitting the number of cards to draw
 elements.submitCardCount.addEventListener("click", () => {
-  const userInput = parseInt(elements.inputField.value, 10);
-  if (userInput > 52) {
+  const userInput = elements.inputField.value.trim();
+
+  // Check if userInput contains letters or special characters
+  if (!/^[0-9]+$/.test(userInput)) {
+    elements.errorMessage.style.display = "block";
+    elements.errorMessage.textContent = "Only numbers are allowed.";
+    elements.inputField.setCustomValidity("Only numbers are allowed.");
+    return;
+  }
+
+  const userInputNumber = parseInt(userInput, 10);
+
+  if (userInputNumber > 52) {
     elements.errorMessage.style.display = "block";
     elements.inputField.setCustomValidity("Number should not be over 52");
     return;
