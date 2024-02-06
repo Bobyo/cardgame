@@ -34,6 +34,7 @@ function shuffleDeck(deck) {
 
 // Function to draw a specified number of cards from the deck
 function drawCards(deck, dDeck, nrCards) {
+  // don't attempt to draw more cards than are available in the deck
   const numCardsToDraw = Math.min(nrCards, deck.length);
 
   // Initialize drawn cards and remaining deck
