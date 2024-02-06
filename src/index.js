@@ -40,6 +40,18 @@ function displayDeck(deckAttr) {
   });
 }
 
+function handleEmptyDeck() {
+  if (!deck.length) {
+    gameContainer.classList.add("hide");
+    drawBtn.disabled = true;
+    shuffleBtn.disabled = true;
+  } else {
+    gameContainer.classList.remove("hide");
+    drawBtn.disabled = false;
+    shuffleBtn.disabled = false;
+  }
+}
+
 // Function to display the drawn deck on the page
 function displayDrawnDeck(drawnDeckAttr) {
   drawContainer.innerHTML = "";
@@ -47,6 +59,8 @@ function displayDrawnDeck(drawnDeckAttr) {
     let cardElement = createCardElement(card);
     drawContainer.appendChild(cardElement);
   });
+
+  handleEmptyDeck();
 }
 
 // Event listeners
@@ -82,7 +96,7 @@ submitCardCount.addEventListener("click", () => {
   }
 
   inputField.reportValidity();
-  const drawResult = drawCards(deck, userInput);
+  const drawResult = drawCards(deck, drawnDeck, userInput);
   drawnDeck = drawResult.drawnDeck;
   deck = drawResult.remainingDeck;
 

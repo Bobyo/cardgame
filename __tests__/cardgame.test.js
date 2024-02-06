@@ -1,4 +1,9 @@
-import { buildDeck, shuffleDeck, drawCards, sortDrawnCards } from "../src/cardGame";
+import {
+  buildDeck,
+  shuffleDeck,
+  drawCards,
+  sortDrawnCards,
+} from "../src/cardGame";
 
 describe("Card Game Functionality", () => {
   test("Build Deck", () => {
@@ -26,11 +31,35 @@ describe("Card Game Functionality", () => {
     let deck = buildDeck();
     let originalDeck = buildDeck();
     const numCardsToDraw = 5;
-    const drawResult = drawCards(deck, numCardsToDraw);
+
+    let initialDrawnDeck = [];
+
+    const drawResult = drawCards(deck, initialDrawnDeck, numCardsToDraw);
     const { drawnDeck, remainingDeck } = drawResult;
 
     // Assert that the drawn deck has the correct number of cards
-    expect(drawnDeck.length).toBe(numCardsToDraw);
+    expect(drawnDeck.length).toBe(numCardsToDraw + initialDrawnDeck.length);
+    // Assert that the remaining deck has the correct number of cards
+    expect(remainingDeck.length).toBe(originalDeck.length - numCardsToDraw);
+  });
+
+  // Test case for drawing cards
+  test("Draw Cards with already drawn cards", () => {
+    let deck = buildDeck();
+    let originalDeck = buildDeck();
+    const numCardsToDraw = 5;
+
+    let initialDrawnDeck = [
+      { value: "A", suit: "spades" },
+      { value: "2", suit: "diamonds" },
+      { value: "3", suit: "clubs" },
+    ];
+
+    const drawResult = drawCards(deck, initialDrawnDeck, numCardsToDraw);
+    const { drawnDeck, remainingDeck } = drawResult;
+
+    // Assert that the drawn deck has the correct number of cards
+    expect(drawnDeck.length).toBe(numCardsToDraw + initialDrawnDeck.length);
     // Assert that the remaining deck has the correct number of cards
     expect(remainingDeck.length).toBe(originalDeck.length - numCardsToDraw);
   });
@@ -50,5 +79,46 @@ describe("Card Game Functionality", () => {
       { value: "5", suit: "hearts" },
       { value: "Q", suit: "diamonds" },
     ]);
+  });
+
+  test("should not over-draw more than 52 cards from the deck", () => {
+    // Build the initial deck
+    let deck = buildDeck();
+    let initialDrawnDeck = [];
+
+    // Attempt to draw 60 cards from the deck
+    const drawnCards = drawCards(deck, initialDrawnDeck, 60);
+
+    // Ensure that the number of drawn cards does not exceed 52
+    expect(drawnCards.drawnDeck.length).toBeLessThanOrEqual(52);
+
+    // Ensure that the remaining deck size is correct
+    const remainingDeckSize = deck.length - drawnCards.drawnDeck.length;
+    expect(remainingDeckSize).toBeGreaterThanOrEqual(0);
+  });
+
+  test("should not over-draw more than 52 cards from the deck when we already drawn cards", () => {
+    // Build the initial deck
+    let deck = buildDeck();
+
+    let initialDrawnDeck = [
+      { value: "A", suit: "spades" },
+      { value: "2", suit: "diamonds" },
+      { value: "3", suit: "clubs" },
+    ];
+
+    // Attempt to draw 60 cards from the deck, considering the initial drawn deck
+    const drawnCards = drawCards(deck, initialDrawnDeck, 60);
+
+    // Ensure that the number of drawn cards does not exceed 52
+    const maxAllowedDrawnCards = 52;
+    expect(
+      drawnCards.drawnDeck.length - initialDrawnDeck.length
+    ).toBeLessThanOrEqual(maxAllowedDrawnCards);
+
+    // Ensure that the remaining deck size is correct
+    const remainingDeckSize =
+      deck.length - drawnCards.drawnDeck.length + initialDrawnDeck.length;
+    expect(remainingDeckSize).toBeGreaterThanOrEqual(0);
   });
 });

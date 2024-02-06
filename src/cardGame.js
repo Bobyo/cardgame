@@ -24,15 +24,21 @@ function shuffleDeck(deck) {
   return deck;
 }
 
-function drawCards(deck, nrCards) {
-  let drawnDeck = [];
-  for (let i = 0; i < nrCards; i++) {
-    let randomIndex = Math.floor(Math.random() * deck.length);
-    let drawnCard = deck[randomIndex];
+function drawCards(deck, dDeck, nrCards) {
+  const numCardsToDraw = Math.min(nrCards, deck.length);
+
+  // Drawn cards and remaining deck
+  let drawnDeck = [...dDeck];
+  let remainingDeck = [...deck];
+
+  for (let i = 0; i < numCardsToDraw; i++) {
+    let randomIndex = Math.floor(Math.random() * remainingDeck.length);
+    let drawnCard = remainingDeck[randomIndex];
     drawnDeck.push(drawnCard);
-    deck.splice(randomIndex, 1);
+    remainingDeck.splice(randomIndex, 1);
   }
-  return { drawnDeck, remainingDeck: deck };
+
+  return { drawnDeck, remainingDeck };
 }
 
 function sortDrawnCards(drawnDeck) {
